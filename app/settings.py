@@ -85,6 +85,12 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+AUTHENTICATION_BACKENDS = (
+    'twitter_auth.backends.TwitterAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
