@@ -10,11 +10,6 @@ html, body { height: 100%; }
     height: 90%;
     overflow: auto;
 }
-#form {
-    float: left;
-    width: 65%;
-    height: 10%;
-}
 
 #messages article {
     border-bottom: 1px solid red;
@@ -26,3 +21,16 @@ html, body { height: 100%; }
     margin-left: 65%;
     width: 35%;
 }
+#stream div {
+    background: #eeeeee;
+    background: -webkit-gradient(linear, 0 50%, 0 100%, from(#eeeeee), to(#cccccc)); 
+    background: -moz-linear-gradient(top, #eeeeee, #eeeeee, #cccccc);
+    padding: 1%;
+}
+section#form {
+    float: left;
+    width: 65%;
+    height: 10%;
+}
+section#form { padding-left: 3%; padding-top: 3px; }
+#chatinput { width: 80%; }
