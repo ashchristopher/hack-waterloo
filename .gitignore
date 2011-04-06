@@ -4,3 +4,4 @@ app/database.db
 *.pyc
 .gitignore
 localsettings.py
+app/site-media/dynamic
