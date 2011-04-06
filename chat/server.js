@@ -36,27 +36,39 @@ var socket = io.listen(server)
 
 var buffer = [];
 var dictBuffer = {}; // organized by chat room.
-var user_buffer = []; // list of users in the chat room.
 var getContext = true;
 
 /* Buffer format:
  *
  * {channelId: <channelId>, message: [client.sessionId, message])
  * */
+var userBuffer = []; // list of users in all chat rooms.
 
 channel.on('connectedToChannel', function(client, sessionInfo){
+  userBuffer.push(client.sessionId);
+  var _localUserBuffer = JSON.parse(JSON.stringify(userBuffer));
   channel.broadcastToChannel('announcement',sessionInfo.channelId, {announcement: sessionInfo.session.username + " has entered the Room"})
 
   // Send the buffer to the channel upon connecting. Will this send to everyone? Probably
   _data = dictBuffer[sessionInfo.channelId];
 
   console.log(_data);
+  console.log(userBuffer);
+  console.log("This client just joined", client.sessionId);
 
-  channel.broadcastToChannel('chat', sessionInfo.channelId, {buffer: _data});
+  // Send this buffer only to the new client.
+  currentUserIndex = _localUserBuffer.indexOf(client.sessionId);
+  _localUserBuffer.splice(currentUserIndex, 1);
+  console.log("Exclude", _localUserBuffer);
+
+  channel.broadcastToChannel('chat', sessionInfo.channelId, {buffer: _data}, _localUserBuffer);
 })
 
 channel.on('disconnectedFromChannel', function(sessionId, sessionInfo){
   channel.broadcastToChannel('announcement',sessionInfo.channelId, {announcement: sessionInfo.session.username + " has left the Room"})
+
+  console.log("Is leaving", sessionId);
+  userBuffer.splice(userBuffer.indexOf(sessionId), 1)
 })
 
 channel.on('chat',function(client, msg){
@@ -66,12 +78,9 @@ channel.on('chat',function(client, msg){
   channel.broadcastToChannel('chat', msg.channelId, msg, client.sessionId)
 
   // push the message to the buffer to preload messages on new users.
-  //var msg = {channelId: msg.channelId, message: msg, sessionId: client.sessionId};
-
   if (!dictBuffer[msg.channelId]) {
       dictBuffer[msg.channelId] = [];
   }
-
   dictBuffer[msg.channelId].push(msg);
 
   console.log(dictBuffer);
