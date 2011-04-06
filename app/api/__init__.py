@@ -1,4 +1,5 @@
 class Api(object):
-
-    def process(self, data):
+    
+    @staticmethod
+    def process(data):
         raise Exception('Extend and implement this method')

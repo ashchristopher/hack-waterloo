@@ -36,6 +36,7 @@ var socket = io.listen(server)
 
 var buffer = [];
 var dictBuffer = {}; // organized by chat room.
+var contextBuffer = {}; // organized by chat room.
 var getContext = true;
 
 /* Buffer format:
@@ -47,22 +48,27 @@ var userBuffer = []; // list of users in all chat rooms.
 channel.on('connectedToChannel', function(client, sessionInfo){
   userBuffer.push(client.sessionId);
   var _localUserBuffer = JSON.parse(JSON.stringify(userBuffer));
+
   channel.broadcastToChannel('announcement',sessionInfo.channelId, {announcement: sessionInfo.session.username + " has entered the Room"})
 
-  // Send the buffer to the channel upon connecting, excluding everyone but the current user.
   _data = dictBuffer[sessionInfo.channelId];
 
   console.log(_data);
-  console.log(userBuffer);
-  console.log("This client just joined", client.sessionId);
 
+  console.log("Context");
+  console.log(contextBuffer);
+ 
   // Send this buffer only to the new client.
   currentUserIndex = _localUserBuffer.indexOf(client.sessionId);
   console.log(currentUserIndex);
   _localUserBuffer.splice(currentUserIndex, 1);
   console.log("Exclude", _localUserBuffer);
 
-  channel.broadcastToChannel('chat', sessionInfo.channelId, {buffer: _data}, _localUserBuffer);
+  if (_data) {
+      channel.broadcastToChannel('chat', sessionInfo.channelId, {buffer: _data}, _localUserBuffer);
+      // Also send the context so the user knows what's going on.
+      channel.broadcastToChannel('context', sessionInfo.channelId, {buffer: contextBuffer})
+  }
 })
 
 channel.on('disconnectedFromChannel', function(sessionId, sessionInfo){
@@ -84,12 +90,14 @@ channel.on('chat',function(client, msg){
   }
   dictBuffer[msg.channelId].push(msg);
 
-  console.log(dictBuffer);
-
   // Broadcast context data to all clients about this message
   if(getContext) {
     context_api.getContext(msg, function contextReceived(err, context) {
         console.log('contextReceived');
+        if (!contextBuffer[msg.channelId]) {
+            contextBuffer[msg.channelId] = [];
+        }
+        contextBuffer[msg.channelId].push(context);
         channel.broadcastToChannel('context', msg.channelId, context)
     })
   }
