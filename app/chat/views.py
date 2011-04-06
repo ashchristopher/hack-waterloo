@@ -20,13 +20,13 @@ def chat_login(request, template='chat/signin.html'):
     return render_to_response(template, context, context_instance=RequestContext(request))
 
 
-@login_required
+#@login_required
 def chat_rooms_list(request, template='chat/rooms.html'):
     existing_rooms = ChatRoom.objects.all()
 
     if request.method == "POST":
         new_room_form = ChatRoomForm(data=request.POST)
-        name_form = NameForm()
+        name_form = ChatRoomForm()
         if new_room_form.is_valid():
             room = new_room_form.save()
             return HttpResponseRedirect(reverse('chat_room', kwargs={'room_name' : room.slug }))
@@ -42,7 +42,7 @@ def chat_rooms_list(request, template='chat/rooms.html'):
     return render_to_response(template, context, context_instance=RequestContext(request))
 
 
-@login_required
+#@login_required
 def chat_room(request, room_name, template='chat/chat-room.html'):
     context = {
         'CHAT_SERVER_URL': CHAT_SERVER_URL,
