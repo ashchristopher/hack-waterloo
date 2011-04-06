@@ -18,4 +18,6 @@ def message_context(request):
     
     p = Pipeline()
     context = p.run(message)
+
+    print context
     return JsonResponse(context)
