@@ -1,5 +1,4 @@
 var http = require('http');
-var EventEmitter = require('events').EventEmitter;
 
 exports.ContextApi = function() {
 
@@ -35,7 +34,7 @@ exports.ContextApi = function() {
                 data['message'] = message;
                 console.log('Django context api response received:');
                 console.log(data);
-                callback({}, JSON.parse(body));
+                callback({}, data);
             });
         });
 
@@ -47,5 +46,4 @@ exports.ContextApi = function() {
         'getContext': getContext,
     }
 
-    //EventEmitter.call(this);
 }
