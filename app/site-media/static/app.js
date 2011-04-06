@@ -14,7 +14,7 @@ var channel = new SocketIOChannel({
 
 
 function message(obj) {
-    console.log('got message', obj);
+    console.log('message', obj);
     $("#messages").append("<div>From:" + obj.username + " - " + obj.message + "</div>");
     $("#chatinput").val("");
 
@@ -28,7 +28,7 @@ function send() {
     message(obj);
 };
 
-function postrank_render(data) {
+function renderPostRank(data) {
     console.log('postrank_render');
     var postrank = data.postrank;
     // TODO: replace with icanhaz template?
@@ -37,6 +37,20 @@ function postrank_render(data) {
         '<a href="', postrank.url, '">url</a>',
         '<span class="rank">', postrank.rank, '</span>',
     '</div>'].join('');
+}
+
+function contextReceived(context) {
+    console.log("contextReceived", context);
+    var items = [];
+    if(context['postrank']) {
+        items.push(renderPostRank(context));
+    }
+    $("#stream").append(items.join('')); 
+}
+
+function announcementReceived(obj) {
+    console.log("Announcement", obj);
+    $("#messages").append("<div>" + obj.announcement + "</div>");
 }
 
 channel.on('chat', function(obj) {
@@ -50,20 +64,8 @@ channel.on('chat', function(obj) {
 
 });
 
-channel.on('announcement', function(obj) {
-    console.log("Announcement", obj);
-    $("#messages").append("<div>" + obj.announcement + "</div>");
-});
-
-channel.on('context', function(obj) {
-    console.log("Context", obj);
-    var items = [];
-    if(obj['postrank']) {
-        items.push(postrank_render(obj));
-    }
-    $("#stream").append(items.join(''));
-});      
-
+channel.on('announcement', announcementReceived);
+channel.on('context', contextReceived);      
 channel.on('connect', function(obj) {
     console.log('Connected!');
 });
