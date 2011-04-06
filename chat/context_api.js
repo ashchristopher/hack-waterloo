@@ -1,5 +1,4 @@
 var http = require('http');
- 
 var EventEmitter = require('events').EventEmitter;
 
 exports.ContextApi = function() {
