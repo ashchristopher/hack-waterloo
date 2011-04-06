@@ -49,7 +49,7 @@ channel.on('connectedToChannel', function(client, sessionInfo){
   var _localUserBuffer = JSON.parse(JSON.stringify(userBuffer));
   channel.broadcastToChannel('announcement',sessionInfo.channelId, {announcement: sessionInfo.session.username + " has entered the Room"})
 
-  // Send the buffer to the channel upon connecting. Will this send to everyone? Probably
+  // Send the buffer to the channel upon connecting, excluding everyone but the current user.
   _data = dictBuffer[sessionInfo.channelId];
 
   console.log(_data);
@@ -58,6 +58,7 @@ channel.on('connectedToChannel', function(client, sessionInfo){
 
   // Send this buffer only to the new client.
   currentUserIndex = _localUserBuffer.indexOf(client.sessionId);
+  console.log(currentUserIndex);
   _localUserBuffer.splice(currentUserIndex, 1);
   console.log("Exclude", _localUserBuffer);
 
