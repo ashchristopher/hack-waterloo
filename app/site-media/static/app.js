@@ -28,6 +28,17 @@ function send() {
     message(obj);
 };
 
+function postrank_render(data) {
+    console.log('postrank_render');
+    var postrank = data.postrank;
+    // TODO: replace with icanhaz template?
+    return ['<div>',
+        '<h4>Post Rank</h4>',
+        '<a href="', postrank.url, '">url</a>',
+        '<span class="rank">', postrank.rank, '</span>',
+    '</div>'].join('');
+}
+
 channel.on('chat', function(obj) {
     if ('buffer' in obj ) {
         for (var i in obj.buffer) {
@@ -46,7 +57,11 @@ channel.on('announcement', function(obj) {
 
 channel.on('context', function(obj) {
     console.log("Context", obj);
-    //$("#messages").append("<div>" + obj.announcement + "</div>");
+    var items = [];
+    if(obj['postrank']) {
+        items.push(postrank_render(obj));
+    }
+    $("#stream").append(items.join(''));
 });      
 
 channel.on('connect', function(obj) {
