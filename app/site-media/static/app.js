@@ -1,7 +1,7 @@
 var username = "User_" + new Date().getTime();
 
 var channel = new SocketIOChannel({
-    host: "localhost",
+    host: window.location.hostname,
     port: 8001,
     // get channelId from url, we assume an ending slash /
     channelId: window.location.href.split("/").splice(-2)[0],
@@ -14,12 +14,14 @@ var channel = new SocketIOChannel({
 
 
 function message(obj) {
+    console.log('message', obj);
     $("#messages").append("<div>From:" + obj.username + " - " + obj.message + "</div>");
     $("#chatinput").val("");
 
 };
 
 function send() {
+    console.log('send');
     var val = $("#chatinput").val();
     obj = {message: val, username: username};
     channel.send('chat', obj)
