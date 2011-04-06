@@ -3,12 +3,17 @@
     <head>
 
         {% block css %}
+            <link href="{{ MEDIA_URL }}static/css/gackers.css" rel="stylesheet" type="text/css" />
+
+            <!-- pick font for logo -->
+            <link href="http://fonts.googleapis.com/css?family=Lobster&subset=latin" rel="stylesheet" type="text/css" />
         {% endblock css%}
 
         {% block javascript %}
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
-            <script src="{{ MEDIA_URL }}static/socket.io/socket.io.js"></script> 
+            <script src="http://localhost:8001/socket.io/socket.io.js"></script> 
+            <script src="{{ MEDIA_URL }}static//socket.io-channels-client.js"></script>
             <script src="{{ MEDIA_URL }}static/app.js"></script>
         {% endblock javascript %}
     </head>

@@ -96,6 +96,7 @@ INSTALLED_APPS = (
     'clean',
     'chat',
     'api',
+    'south',
 )
 
 SOUTH_AUTO_FREEZE_APP = True

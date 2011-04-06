@@ -1,1 +1,33 @@
 {% extends 'chat/base.html' %}
+
+
+{% block javascript %}
+    {{ block.super }}
+    <script type='text/javascript' src='{{ MEDIA_URL }}static/js/modernizr-1.7.min.js'></script>
+{% endblock javascript %}
+
+{% block css %}
+    {{ block.super }}
+    <link href="{{ MEDIA_URL}}static/css/gackers.css" rel="stylesheet" type="text/css" />
+{% endblock css %}
+
+
+
+{% block content %}
+
+    <div id='rooms'>
+        <div id='create-new'>
+            <form action='' method='post'>
+                {% csrf_token %}
+                {{ new_room_form.as_p }}
+                <input type='submit' value='Create' />
+            </form>
+        </div>
+        <ul>
+            {% for room in existing_rooms %}
+                <li><a href='{% url chat_room room.slug %}'>{{ room.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+{% endblock content %}
