@@ -32,6 +32,7 @@ exports.ContextApi = function() {
             response.on("end", function() { 
                 // send the context to the callback function
                 var data = JSON.parse(body);
+                data['message'] = message;
                 console.log('Django context api response received:');
                 console.log(data);
                 callback({}, JSON.parse(body));
