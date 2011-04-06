@@ -20,3 +20,9 @@ urlpatterns = patterns('',
 urlpatterns += patterns('',
     url(r'^$', 'chat.views.chat_rooms_list', {}, name='list-rooms'),
 )
+
+# twitter patterns
+urlpatterns += patterns('',
+    url(r'^', include('twitter_auth.urls')),
+)
+
