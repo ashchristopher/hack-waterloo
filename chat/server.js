@@ -33,4 +33,16 @@ channel.on('chat',function(client, msg){
   // broadcast the chat message to everyone in the channel,
   // except the person who sent it:
   channel.broadcastToChannel('chat', msg.channelId, msg, client.sessionId)
+
+  // Broadcast context data to all clients about this message
+  // TODO: get this context from django...somehow
+  var context = {
+    message: msg,
+    postrank: {},
+    video: {},
+    image: {},
+  }
+  channel.broadcastToChannel('context', msg.channelId, context)
 })
+
+
