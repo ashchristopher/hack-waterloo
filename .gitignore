@@ -3,3 +3,4 @@ app/database.db
 *.swp
 *.pyc
 .gitignore
+localsettings.py
