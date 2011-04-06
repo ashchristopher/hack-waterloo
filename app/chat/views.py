@@ -27,6 +27,7 @@ def chat_rooms_list(request, template='chat/rooms.html'):
         'existing_rooms' : existing_rooms,
         'new_room_form' : new_room_form,
         'CHAT_SERVER_URL':CHAT_SERVER_URL,
+        'CHAT_SERVER_PORT': CHAT_SERVER_PORT,
     }
     return render_to_response(template, context, context_instance=RequestContext(request))
 
