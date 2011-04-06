@@ -32,7 +32,6 @@ exports.ContextApi = function() {
         request.on('response', function(response) { 
 
             console.log("response: "+response.statusCode);
-
             var body = "";
             response.on("data", function(chunk) {
                 body += chunk;
@@ -40,11 +39,14 @@ exports.ContextApi = function() {
 
             response.on("end", function() { 
                 // send the context to the callback function
-                var data = JSON.parse(body);
-                data['message'] = message;
-                console.log('Django context api response received:');
-                console.log(data);
-                callback({}, data);
+                if(response.statusCode === 200) {
+                    var data = JSON.parse(body);
+                    data['message'] = message;
+                    callback({}, data);
+                } else {
+                    console.log(body);
+                    callback({'status_code': response.statusCode, 'body': body}, {});
+                }
             });
         });
         request.end();
