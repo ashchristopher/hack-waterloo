@@ -12,13 +12,23 @@ exports.ContextApi = function() {
      */
     function getContext(message, callback)
     {
-        console.log('getContext');
+        console.log('getContext', message);
         var client = http.createClient(django_port, django_server);
-        client.on('error', function(err) {
-            console.log(err);
-        });
+        var buf = [];
+        for(var i in message) {
+            buf.push(i + '=' + message[i]);
+        }
+        var post_data = buf.join('&');//JSON.stringify(message);
+ 
+        var headers = {
+            'Host': django_server,
+            'Content-Type': 'application/json',
+            'Content-Length': post_data.length
+        };
+        var request = client.request('POST', api_path, headers);
+        console.log(post_data);
+        request.write(post_data);
 
-        var request = client.request('GET', api_path, {'host':django_server});
         request.on('response', function(response) { 
 
             console.log("response: "+response.statusCode);
@@ -37,7 +47,6 @@ exports.ContextApi = function() {
                 callback({}, data);
             });
         });
-
         request.end();
 
     }
