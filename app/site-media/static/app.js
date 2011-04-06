@@ -44,6 +44,11 @@ channel.on('announcement', function(obj) {
     $("#messages").append("<div>" + obj.announcement + "</div>");
 });
 
+channel.on('context', function(obj) {
+    console.log("Context", obj);
+    //$("#messages").append("<div>" + obj.announcement + "</div>");
+});      
+
 channel.on('connect', function(obj) {
     console.log('Connected!');
 });
