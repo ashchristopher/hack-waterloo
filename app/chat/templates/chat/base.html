@@ -4,6 +4,7 @@
 
         {% block css %}
             <link href="{{ MEDIA_URL }}static/css/gackers.css" rel="stylesheet" type="text/css" />
+            <link href="{{ MEDIA_URL }}static/css/chat-message.css" rel="stylesheet" type="text/css" />
 
             <!-- pick font for logo -->
             <link href="http://fonts.googleapis.com/css?family=Lobster&subset=latin" rel="stylesheet" type="text/css" />
@@ -15,6 +16,7 @@
             <script src="{{ CHAT_SERVER_URL }}:{{ CHAT_SERVER_PORT }}/socket.io/socket.io.js"></script> 
             <script src="{{ MEDIA_URL }}static//socket.io-channels-client.js"></script>
             <script src="{{ MEDIA_URL }}static/js/ICanHaz.min.js"></script>
+            <script src="{{ MEDIA_URL }}static/js/jquery.embedly.min.js"></script>
             
             {% if user.is_authenticated %}
                 <script type='text/javascript'>

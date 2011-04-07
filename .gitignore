@@ -5,3 +5,5 @@ app/database.db
 .gitignore
 localsettings.py
 app/site-media/dynamic
+node_modules
+

@@ -1,4 +1,5 @@
-var username = "User_" + new Date().getTime();
+var username = TWITTER_USERNAME;
+var userimage = TWITTER_IMAGE;
 
 var channel = new SocketIOChannel({
     host: window.location.hostname,
@@ -6,7 +7,7 @@ var channel = new SocketIOChannel({
     // get channelId from url, we assume an ending slash /
     channelId: window.location.href.split("/").splice(-2)[0],
 
-    session: {username: username},
+    session: {username: username, userimage: userimage},
 
     reconnectOnDisconnect: true,
     reconnectRetryInterval: 1000 * 10
@@ -15,7 +16,9 @@ var channel = new SocketIOChannel({
 
 function message(obj) {
     console.log('message', obj);
-    $("#messages").append("<div>From:" + obj.username + " - " + obj.message + "</div>");
+    var image = "<img class='twitter-icon' src='"+ obj.userimage + "' width=25 height=25>";
+    
+    $("#messages").append("<div class='chat-message'>" + image + "<span>" + obj.username + "</span>" + " - " + obj.message + "</div>");
     $("#chatinput").val("");
 
 };
@@ -23,25 +26,29 @@ function message(obj) {
 function send() {
     console.log('send');
     var val = $("#chatinput").val();
-    obj = {message: val, username: username};
+    obj = {message: val, username: username, userimage: userimage};
     channel.send('chat', obj)
     message(obj);
 };
 
 function renderPostRank(data) {
     console.log('renderPostRank', data);
-    return ich.postrank(data.postrank);
+    return $(ich.postrank(data.postrank).embedly());
 }
 
 function renderPixMatch(data) {
     console.log('renderPixMatch', data);
-    var li = [];
+
+    var ul = $("<ul>");
+
     for (var i in data.pixmatch.results) {
-        li[i] = ich.pixmatch_derive({label: data.pixmatch.results[i]});
+        ul.append(ich.pixmatch_derive({label: data.pixmatch.results[i]})[0]);
     }
-    var f = { list: li.join('')}  
-    console.log(li.join(''));
-    return ich.pixmatch();
+
+    // hack!!!
+    $("#stream").append(ul[0]);
+
+    return ich.pixmatch({list: ul[0]});
 }
 
 function contextReceived(context) {

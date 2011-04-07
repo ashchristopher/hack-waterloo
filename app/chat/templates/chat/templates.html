@@ -4,21 +4,18 @@
     <h4>Post Rank</h4>
     <ul>
         <li><a href="{{ url }}">{{ url }}</a></li>
-        <li>digg: {{ digg }}</li>
-        <li>reddit_votes: {{ reddit_votes }}</li>
-        <li>delicious: {{ delicious }}</li>
-        <li>twitter: {{ twitter }}</li>
-        <li>brightkite: {{ brightkite }}</li>
+        <li><img src="/site-media/static/images/digg.png" /> {{ digg }}</li>
+        <li><img src="/site-media/static/images/reddit.png" /> {{ reddit_votes }}</li>
+        <li><img src="/site-media/static/images/delicious.png" /> {{ delicious }}</li>
+        <li><img src="/site-media/static/images/twitter.png" /> {{ twitter }}</li>
     </ul>
 </script>
 
 <script id="pixmatch" type="text/html">
-    <ul>
-        {{ list }}
-    </ul>
+    {{ list }}
 </script>
 
 <script id="pixmatch_derive" type="text/html">
-    <li><img src="{{ label }}" alt=""></li>
+    <li><img src="{{ label }}" alt="" class="pixmatch-icon"></li>
 </script>
 {% endverbatim %}
