@@ -12,6 +12,9 @@ class PostrankApi(Api):
     @staticmethod
     def process(data):
         data = Helper.parse_url(data)
+        if (data.endswith('.jpg') or data.endswith('.png')):
+            return {}
+
         try:
             openurl = urllib.urlopen('%sid=%s' % (METRIC_URL, data))
             content = json.loads(openurl.read())

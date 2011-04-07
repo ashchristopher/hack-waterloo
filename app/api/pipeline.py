@@ -1,7 +1,6 @@
 from api import idee, postrank
 
 class Pipeline(object):
-    
     apis = [
         idee.PixMatch,
         idee.Piximilar,
