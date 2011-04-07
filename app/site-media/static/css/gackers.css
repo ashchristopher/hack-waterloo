@@ -53,6 +53,9 @@ h1 {
     background: -moz-linear-gradient(top, #eeeeee, #eeeeee, #cccccc);
     padding: 1%;
 }
+#stream img.pixmatch-icon {
+    width: 80%;
+}
 section#form {
     float: left;
     height: 10%;
