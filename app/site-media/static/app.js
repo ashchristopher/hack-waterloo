@@ -86,8 +86,16 @@ channel.on('chat', function(obj) {
     } else {
         message(obj);
     }
-
+    scrollMessages();
 });
+
+function scrollMessages() {
+ 
+    $('#messages').animate({
+        scrollTop: $('#messages div:last').offset().top
+    }, 2000);
+    
+}
 
 channel.on('announcement', announcementReceived);
 channel.on('context', contextReceived);      
