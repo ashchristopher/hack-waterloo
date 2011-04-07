@@ -46,6 +46,7 @@ h1 {
     top: 30px;
     width: 350px;
     overflow: auto;
+    padding-top: 1.5em;
 }
 #stream div {
     background: #eeeeee;
@@ -53,6 +54,8 @@ h1 {
     background: -moz-linear-gradient(top, #eeeeee, #eeeeee, #cccccc);
     padding: 1%;
 }
+#stream div ul { list-style: none; margin: 0; padding: 0; } 
+#stream div ul li { list-style: none;  display: inline-block; } 
 #stream img.pixmatch-icon {
     width: 80%;
 }

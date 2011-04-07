@@ -1,5 +1,11 @@
-var username = TWITTER_USERNAME;
-var userimage = TWITTER_IMAGE;
+if(typeof TWITTER_USERNAME != 'undefined') {
+    var username = TWITTER_USERNAME;
+    var userimage = TWITTER_IMAGE;
+}else {
+    var username = "Anonymous";
+    var userimage = '';
+}
+
 
 var channel = new SocketIOChannel({
     host: window.location.hostname,
@@ -16,7 +22,10 @@ var channel = new SocketIOChannel({
 
 function message(obj) {
     console.log('message', obj);
-    var image = "<img class='twitter-icon' src='"+ obj.userimage + "' width=25 height=25>";
+    var image = '';
+    if(userimage) {
+        var image = "<img class='twitter-icon' src='"+ obj.userimage + "' width=25 height=25>";
+    }
     
     $("#messages").append("<div class='chat-message'>" + image + "<span>" + obj.username + "</span>" + " - " + obj.message + "</div>");
     $("#chatinput").val("");
