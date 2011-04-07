@@ -58,7 +58,6 @@ h1 {
 }
 section#form {
     float: left;
-    height: 10%;
     position: absolute;
     bottom: 5px; 
     left: 10px;
