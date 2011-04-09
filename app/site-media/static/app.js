@@ -40,10 +40,22 @@ function renderPostRank(data) {
 }
 
 function contextReceived(context) {
+    // context can be a list of contexts or a single item
     console.log("contextReceived", context);
+    var to_render = []; 
+    if ('buffer' in context) {
+        for (var i in context.buffer) {
+            to_render.push(context.buffer[i]);
+        }
+    } else {
+        to_render.push(context);
+    }
+
     var items = [];
-    if(context['postrank']) {
-        items.push(renderPostRank(context));
+    for (var i in to_render) {
+        if(to_render[i]['postrank']) {
+            items.push(renderPostRank(to_render[i]));
+        }
     }
     $("#stream").append(items.join('')); 
 }

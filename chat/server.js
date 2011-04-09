@@ -67,7 +67,7 @@ channel.on('connectedToChannel', function(client, sessionInfo){
   if (_data) {
       channel.broadcastToChannel('chat', sessionInfo.channelId, {buffer: _data}, _localUserBuffer);
       // Also send the context so the user knows what's going on.
-      channel.broadcastToChannel('context', sessionInfo.channelId, {buffer: contextBuffer})
+      channel.broadcastToChannel('context', sessionInfo.channelId, {buffer: contextBuffer[sessionInfo.channelId]})
   }
 })
 
