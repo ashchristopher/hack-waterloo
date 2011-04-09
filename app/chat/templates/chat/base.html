@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html>
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
-<script src="http://localhost:8000/socket.io/socket.io.js"></script> 
-<script src="/static/socket.io.js"></script> 
-<script src="/static/app.js"></script>
-</head>
-<body>
-{% block content %}
-        <section id="messages"></section>
-        <section id="contentsteam"></section>
-{% endblock content %}
-</body>
+    <head>
+
+        {% block css %}
+        {% endblock css%}
+
+        {% block javascript %}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+            <script src="http://localhost:8000/socket.io/socket.io.js"></script> 
+            <script src="/static/app.js"></script>
+        {% endblock javascript %}
+    </head>
+    
+    <body>
+        <div id='content'>
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </body>
+
 </html>
