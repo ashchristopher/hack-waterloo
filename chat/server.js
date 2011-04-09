@@ -7,6 +7,7 @@ var http = require('http')
   , fs = require('fs')
   , io = require('socket.io')
   , channels = require('socket.io-channels')
+  , context_api = require('./context_api').ContextApi()
   , sys = require(process.binding('natives').util ? 'util' : 'sys')
   , port = 8001
   , server;
@@ -63,13 +64,10 @@ channel.on('chat',function(client, msg){
 
   // Broadcast context data to all clients about this message
   // TODO: get this context from django...somehow
-  var context = {
-    message: msg,
-    postrank: {},
-    video: {},
-    image: {},
-  }
-  channel.broadcastToChannel('context', msg.channelId, context)
+
+  context_api.getContext(msg, function contextReceived(err, context) {
+      channel.broadcastToChannel('context', msg.channelId, context)
+  })
 })
 
 
