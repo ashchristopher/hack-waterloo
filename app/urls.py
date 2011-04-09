@@ -18,7 +18,7 @@ urlpatterns = patterns('',
 
 
 urlpatterns += patterns('',
-    url(r'^$', 'chat.views.chat_rooms_list', {}, name='list-rooms'),
+    url(r'^$', 'chat.views.chat_login', {}, name='home'),
 )
 
 # twitter patterns
