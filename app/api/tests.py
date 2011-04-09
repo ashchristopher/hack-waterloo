@@ -8,8 +8,16 @@ Replace this with more appropriate tests for your application.
 from django.test import TestCase
 from django.utils import simplejson
 
-from api.idee import PixMatch
+from api.idee import PixMatch, Piximilar
 from api.pipeline import Pipeline
+
+class PiximilarTest(TestCase):
+    def test_basic(self):
+        p = Piximilar()
+    	url = "http://localhost:8000/site-media/static/images/memes/HACKWATERLOO-Y-U-NO-ENJOY-SUNLIGHT.jpg"
+        output = p.process(url)
+
+        print output
 
 class PixMatchTest(TestCase):
     def test_basic(self):
