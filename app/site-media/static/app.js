@@ -8,26 +8,27 @@ var channel = new SocketIOChannel({
     session: {username: username},
 
     reconnectOnDisconnect: true,
-    reconnectRetryInterval: 1000 * 10 // try to reconnect every 30 seconds
+    reconnectRetryInterval: 1000 * 10
+});
 
-    function message(obj) {
-        $("#messages").append("<div>" + obj.message[0] + ", " + obj.message[1] + "</div>");
 
-    }
+function message(obj) {
+    $("#messages").append("<div>" + obj.message[0] + ", " + obj.message[1] + "</div>");
 
-    function send() {
-        var val = $("#textinput").val();
-        channel.send('chat', {message: val username: username});
-    };
+};
 
-    channel.on('chat', function(obj) {
-        message(obj);
-    });
+function send() {
+    var val = $("#textinput").val();
+    channel.send('chat', {message: val, username: username});
+};
 
-    channel.on('connect', function(obj) {
-        console.log('Connected!');
+channel.on('chat', function(obj) {
+    message(obj);
+});
 
-    });
+channel.on('connect', function(obj) {
+    console.log('Connected!');
+
 });
 
 /*
@@ -39,8 +40,7 @@ var channel = new SocketIOChannel({
 $(document).ready(function () {
     $("#chatform").submit(function() {
         send();
-        message({ message: ['you', val]);
-
+        message({ message: ['you', val]});
         return false;
     });
 });

@@ -8,7 +8,7 @@ var http = require('http')
   , io = require('socket.io')
   , channels = require('socket.io-channels')
   , sys = require(process.binding('natives').util ? 'util' : 'sys')
-  , port = 8000
+  , port = 8001
   , server;
 
 server = http.createServer(function(req, res){
