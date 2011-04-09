@@ -7,7 +7,7 @@ var http = require('http')
   , fs = require('fs')
   , io = require('socket.io')
   , channels = require('socket.io-channels')
-  , context_api = require('context_api').ContextApi()
+  , context_api = require('./context_api').ContextApi()
   , sys = require(process.binding('natives').util ? 'util' : 'sys')
   , port = 8001
   , server;
