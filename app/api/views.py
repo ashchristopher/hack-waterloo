@@ -6,7 +6,9 @@ from utils.json_response import JsonResponse
 
 def message_context(request):
     context = {
-        'message': {},
-        'postrank': {},
+        'postrank': {
+            'rank': 10,
+            'url': 'http://blah.com',
+        },
     }
     return JsonResponse(context)
