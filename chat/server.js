@@ -13,6 +13,18 @@ var http = require('http')
 
 server = http.createServer(function(req, res){
     // doing nothing for now. socket.io will respond    
+    res.writeHead(200, {'Content-Type': 'text/html'}); 
+
+    var data = '';
+    req.on('data', function(chunk) {
+        data += chunk.toString();
+    });
+
+     req.on('end', function() {
+         console.log(data);
+         res.write(data);
+         socket.broadcast(data);
+     });
 }),
 server.listen(port);
 
