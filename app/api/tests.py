@@ -49,5 +49,5 @@ class PixMatchTest(TestCase):
         print "\n\n\n\n\n---------- TESTING RE---------"
     	p = PixMatch()
     	url = "Check out this picture yo! http://dev:8000/site-media/static/images/memes/HACKWATERLOO-Y-U-NO-ENJOY-SUNLIGHT.jpg its awesome/."
-    	output = p.process(url)
+    	output = p.run(url)
     	print output

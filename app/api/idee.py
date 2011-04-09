@@ -60,13 +60,11 @@ class PixMatch(Api):
             'pixmatch' : {},
         }
         
-
         try:
             data = re.search("(?P<url>https?://[^\s]+)", data).group("url")
             if not (data.endswith('.jpg') or data.endswith('.png')):
                 #empty dict added
                 return {}
-            
             
             filename = data.split(os.path.sep)[-1]
             output_path = os.path.join(settings.MEDIA_ROOT, 'dynamic', 'images')

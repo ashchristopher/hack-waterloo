@@ -13,3 +13,4 @@ class ChatRoomForm(forms.Form):
 		room.name = self.cleaned_data.get('name')
 		room.save()
 		return room
+

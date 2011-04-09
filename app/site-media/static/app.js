@@ -29,14 +29,8 @@ function send() {
 };
 
 function renderPostRank(data) {
-    console.log('postrank_render');
-    var postrank = data.postrank;
-    // TODO: replace with icanhaz template?
-    return ['<div>',
-        '<h4>Post Rank</h4>',
-        '<a href="', postrank.url, '">url</a>',
-        '<span class="rank">', postrank.rank, '</span>',
-    '</div>'].join('');
+    console.log('renderPostRank', data);
+    return ich.postrank(data.postrank);
 }
 
 function contextReceived(context) {
@@ -54,10 +48,13 @@ function contextReceived(context) {
     var items = [];
     for (var i in to_render) {
         if(to_render[i]['postrank']) {
-            items.push(renderPostRank(to_render[i]));
+            pushToStream(renderPostRank(to_render[i]));
         }
     }
-    $("#stream").append(items.join('')); 
+}
+
+function pushToStream(obj) {
+    $(obj).appendTo('#stream').wrap('<div/>'); 
 }
 
 function announcementReceived(obj) {
