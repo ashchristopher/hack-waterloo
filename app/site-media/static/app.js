@@ -54,6 +54,7 @@ function announcementReceived(obj) {
 }
 
 channel.on('chat', function(obj) {
+    console.log("Got chat", obj);
     if ('buffer' in obj ) {
         for (var i in obj.buffer) {
             message(obj.buffer[i]);

@@ -47,22 +47,23 @@ var userBuffer = []; // list of users in all chat rooms.
 channel.on('connectedToChannel', function(client, sessionInfo){
   userBuffer.push(client.sessionId);
   var _localUserBuffer = JSON.parse(JSON.stringify(userBuffer));
+
   channel.broadcastToChannel('announcement',sessionInfo.channelId, {announcement: sessionInfo.session.username + " has entered the Room"})
 
-  // Send the buffer to the channel upon connecting, excluding everyone but the current user.
+  
   _data = dictBuffer[sessionInfo.channelId];
 
   console.log(_data);
-  console.log(userBuffer);
-  console.log("This client just joined", client.sessionId);
-
+ 
   // Send this buffer only to the new client.
   currentUserIndex = _localUserBuffer.indexOf(client.sessionId);
   console.log(currentUserIndex);
   _localUserBuffer.splice(currentUserIndex, 1);
   console.log("Exclude", _localUserBuffer);
 
-  channel.broadcastToChannel('chat', sessionInfo.channelId, {buffer: _data}, _localUserBuffer);
+  if (_data) {
+      channel.broadcastToChannel('chat', sessionInfo.channelId, {buffer: _data}, _localUserBuffer);
+  }
 })
 
 channel.on('disconnectedFromChannel', function(sessionId, sessionInfo){
