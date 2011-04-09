@@ -11,6 +11,6 @@ class PostrankApi(Api):
         openurl = urllib.urlopen('%sid=%s' % (METRIC_URL, data))
         content = json.loads(openurl.read())
         response = {
-            'postrank': content,
+            'postrank': content[data],
             }
         return response
