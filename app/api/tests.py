@@ -35,3 +35,11 @@ class PixMatchTest(TestCase):
         msg = "http://www.igvita.com/2011/04/07/life-beyond-http-11-googles-spdy/"
         output = p.run(msg)
         print output 
+        
+        
+    def test_re(self):
+        print "\n\n\n\n\n---------- TESTING RE---------"
+    	p = PixMatch()
+    	url = "Check out this picture yo! http://dev:8000/site-media/static/images/memes/HACKWATERLOO-Y-U-NO-ENJOY-SUNLIGHT.jpg its awesome/."
+    	output = p.process(url)
+    	print output
