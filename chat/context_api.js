@@ -1,10 +1,11 @@
 var http = require('http');
-var EventEmitter = require('events').EventEmitter;
 
 exports.ContextApi = function() {
 
     var self = this;
-    var django_server = 'http://localhost:8000'
+    var django_server = 'localhost';
+    var django_port = 8000;
+    var api_path = '/api/context/'
 
     /**
      * Send the message to django context api
@@ -12,23 +13,32 @@ exports.ContextApi = function() {
     function getContext(message, callback)
     {
         console.log('getContext');
-        var client = http.createClient(8000, django_server);
-        var request = client.request('POST', '/api/context/', message);
+        var client = http.createClient(django_port, django_server);
+        client.on('error', function(err) {
+            console.log(err);
+        });
 
-        request.addListener("response", function(response) { 
+        var request = client.request('GET', api_path, {'host':django_server});
+        request.on('response', function(response) { 
+
+            console.log("response: "+response.statusCode);
+
             var body = "";
-
-            response.addListener("data", function(data) {
-                body += data;
+            response.on("data", function(chunk) {
+                body += chunk;
             });
 
-            response.addListener("end", function() { 
+            response.on("end", function() { 
                 // send the context to the callback function
-                console.log('Django context api response received');
-                callback({}, body);
-                //var response = JSON.parse(body); 
+                var data = JSON.parse(body);
+                data['message'] = message;
+                console.log('Django context api response received:');
+                console.log(data);
+                callback({}, data);
             });
         });
+
+        request.end();
 
     }
 
@@ -36,5 +46,4 @@ exports.ContextApi = function() {
         'getContext': getContext,
     }
 
-    EventEmitter.call(this);
 }
