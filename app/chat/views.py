@@ -8,7 +8,7 @@ from chat.models import ChatRoom
 from chat.forms import ChatRoomForm
 
 # TODO: move to context processor
-CHAT_SERVER_URL = getattr(settings, 'CHAT_SERVER', 'http://localhost:8001')
+CHAT_SERVER_URL = getattr(settings, 'CHAT_SERVER_URL', 'http://localhost:8001')
 
 def chat_rooms_list(request, template='chat/rooms.html'):
 	existing_rooms = ChatRoom.objects.all()
