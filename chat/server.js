@@ -36,22 +36,28 @@ var socket = io.listen(server)
 
 var buffer = [];
 var dictBuffer = {}; // organized by chat room.
+var getContext = true;
+
+/* Buffer format:
+ *
+ * {channelId: <channelId>, message: [client.sessionId, message])
+ * */
 var userBuffer = []; // list of users in all chat rooms.
 
 channel.on('connectedToChannel', function(client, sessionInfo){
   userBuffer.push(client.sessionId);
   var _localUserBuffer = JSON.parse(JSON.stringify(userBuffer));
+
   channel.broadcastToChannel('announcement',sessionInfo.channelId, {announcement: sessionInfo.session.username + " has entered the Room"})
 
-  // Send the buffer to the channel upon connecting. Will this send to everyone? Probably
+  
   _data = dictBuffer[sessionInfo.channelId];
 
   console.log(_data);
-  console.log(userBuffer);
-  console.log("This client just joined", client.sessionId);
-
+ 
   // Send this buffer only to the new client.
   currentUserIndex = _localUserBuffer.indexOf(client.sessionId);
+  console.log(currentUserIndex);
   _localUserBuffer.splice(currentUserIndex, 1);
   console.log("Exclude", _localUserBuffer);
 
@@ -80,14 +86,12 @@ channel.on('chat',function(client, msg){
   console.log(dictBuffer);
 
   // Broadcast context data to all clients about this message
-  // TODO: get this context from django...somehow
-
-    /*
-  context_api.getContext(msg, function contextReceived(err, context) {
-      console.log('contextReceived');
-      channel.broadcastToChannel('context', msg.channelId, context)
-  })
-  */
+  if(getContext) {
+    context_api.getContext(msg, function contextReceived(err, context) {
+        console.log('contextReceived');
+        channel.broadcastToChannel('context', msg.channelId, context)
+    })
+  }
 })
 
 
