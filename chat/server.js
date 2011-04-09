@@ -61,7 +61,9 @@ channel.on('connectedToChannel', function(client, sessionInfo){
   _localUserBuffer.splice(currentUserIndex, 1);
   console.log("Exclude", _localUserBuffer);
 
-  channel.broadcastToChannel('chat', sessionInfo.channelId, {buffer: _data}, _localUserBuffer);
+  if (_data) {
+      channel.broadcastToChannel('chat', sessionInfo.channelId, {buffer: _data}, _localUserBuffer);
+  }
 })
 
 channel.on('disconnectedFromChannel', function(sessionId, sessionInfo){
