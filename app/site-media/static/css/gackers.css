@@ -1,13 +1,18 @@
 * {margin: 0; padding: 0;}
 
-section#messages {
+#messages {
     background-color: pink;
     float: left;
-    width: 70%;
+    width: 50%;
 }
 
-section#stream {
+#messages article {
+    border-bottom: 1px solid red;
+    border-collapse: collapse;
+}
+
+#stream {
     background-color: lime;
-    margin-left: 70%;
-    width: 30%;
+    margin-left: 50%;
+    width: 50%;
 }
