@@ -4,9 +4,9 @@ from django.template import RequestContext
 
 from utils.json_response import JsonResponse
 
-def message_context(request):
-    print request
+from api.pipeline import Pipeline
 
+def message_context(request):
     # only posts are valid
     if request.method != 'POST':
         raise Http404
@@ -14,13 +14,8 @@ def message_context(request):
     message = request.POST.get('message', None)
     if not message:
         raise Http404
-
-    # do something with request.POST (pass to pipeline and
-    # decorate this context)
-    context = {
-        'postrank': {
-            'rank': 10,
-            'url': 'http://blah.com',
-        },
-    }
+    
+    
+    p = Pipeline()
+    context = p.run(message)
     return JsonResponse(context)
