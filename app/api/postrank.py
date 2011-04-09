@@ -8,7 +8,6 @@ METRIC_URL = 'http://api.postrank.com/v2/entry/metrics?appkey=%s&' % (API_KEY,)
 
 class PostrankApi(Api):
     def process(self, data):
-        response = {}
         openurl = urllib.urlopen('%sid=%s' % (METRIC_URL, id))
         content = json.loads(openurl.read())
         response = {
