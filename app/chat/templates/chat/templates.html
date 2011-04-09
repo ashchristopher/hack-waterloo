@@ -1,0 +1,36 @@
+{% load chat_tags %}
+{% verbatim %}
+<script id="postrank" type="text/html">
+    <ul>
+        <li><a href="{{ url }}">{{ url }}</a></li>
+        <li>digg: {{ digg }}</li>
+        <li>reddit_votes: {{ reddit_votes }}</li>
+        <li>delicious: {{ delicious }}</li>
+        <li>twitter: {{ twitter }}</li>
+        <li>brightkite: {{ brightkite }}</li>
+    </ul>
+</script>
+
+<script id="pixmatch" type="text/html">
+    <ul>
+        <li><img src="{{ original }}" alt=""></li>
+        <li><img src="{{ derive1 }}" alt=""></li>
+        <li><img src="{{ derive2 }}" alt=""></li>
+        <li><img src="{{ derive3 }}" alt=""></li>
+    </ul>
+</script>
+{% endverbatim %}
+<script>
+    $(document).ready(function () {
+        // sample
+        var pr_data = {
+            "digg": 7010.0, 
+            "reddit_votes": 1880.0, 
+            "delicious": 564.0, 
+            "twitter": 1099.0, 
+            "brightkite": 2.0,
+            "url": "http://foo.bar"
+        }
+        $('body').append(ich.postrank(pr_data));
+    });
+</script>
