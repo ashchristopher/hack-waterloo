@@ -14,9 +14,10 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
             <script src="{{ CHAT_SERVER_URL }}:{{ CHAT_SERVER_PORT }}/socket.io/socket.io.js"></script> 
             <script src="{{ MEDIA_URL }}static//socket.io-channels-client.js"></script>
+            <script src="{{ MEDIA_URL }}static/js/ICanHaz.min.js"></script>
+            {% include 'chat/templates.html' %}
         {% endblock javascript %}
     </head>
-
     
     <body>
         <div id='content'>
