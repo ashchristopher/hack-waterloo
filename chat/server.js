@@ -36,6 +36,12 @@ var socket = io.listen(server)
 
 var buffer = [];
 var dictBuffer = {}; // organized by chat room.
+var getContext = true;
+
+/* Buffer format:
+ *
+ * {channelId: <channelId>, message: [client.sessionId, message])
+ * */
 var userBuffer = []; // list of users in all chat rooms.
 
 channel.on('connectedToChannel', function(client, sessionInfo){
@@ -80,14 +86,12 @@ channel.on('chat',function(client, msg){
   console.log(dictBuffer);
 
   // Broadcast context data to all clients about this message
-  // TODO: get this context from django...somehow
-
-    /*
-  context_api.getContext(msg, function contextReceived(err, context) {
-      console.log('contextReceived');
-      channel.broadcastToChannel('context', msg.channelId, context)
-  })
-  */
+  if(getContext) {
+    context_api.getContext(msg, function contextReceived(err, context) {
+        console.log('contextReceived');
+        channel.broadcastToChannel('context', msg.channelId, context)
+    })
+  }
 })
 
 
