@@ -3,7 +3,7 @@ var username = "User_" + new Date().getTime();
 var channel = new SocketIOChannel({
     host: "localhost",
     port: 8001,
-    channelId: "foofoo",
+    channelId: window.location.href.split("/").splice(-2)[0],
 
     session: {username: username},
 
