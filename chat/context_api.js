@@ -11,7 +11,8 @@ exports.ContextApi = function() {
      */
     function getContext(message, callback)
     {
-        var client = http.createClient(80, django_server);
+        console.log('getContext');
+        var client = http.createClient(8000, django_server);
         var request = client.request('POST', '/api/context/', message);
 
         request.addListener("response", function(response) { 

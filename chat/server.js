@@ -69,6 +69,7 @@ channel.on('chat',function(client, msg){
   // TODO: get this context from django...somehow
 
   context_api.getContext(msg, function contextReceived(err, context) {
+      console.log('contextReceived');
       channel.broadcastToChannel('context', msg.channelId, context)
   })
 })

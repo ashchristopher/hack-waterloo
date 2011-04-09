@@ -14,12 +14,14 @@ var channel = new SocketIOChannel({
 
 
 function message(obj) {
+    console.log('message', obj);
     $("#messages").append("<div>From:" + obj.username + " - " + obj.message + "</div>");
     $("#chatinput").val("");
 
 };
 
 function send() {
+    console.log('send');
     var val = $("#chatinput").val();
     obj = {message: val, username: username};
     channel.send('chat', obj)
