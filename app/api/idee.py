@@ -14,7 +14,7 @@ class PixMatch(Api):
     def process(data):
         api_url = "http://pixmatch-r.hackdays.tineye.com/rest/"
         local_context = {
-            'pixmatch' : [],
+            'pixmatch' : {},
         }
         if not (data.endswith('.jpg') or data.endswith('.png')):
             #empty dict added
@@ -34,11 +34,16 @@ class PixMatch(Api):
             output = subprocess.Popen(cmd.split(' '), stdout=subprocess.PIPE).communicate()[0]
             json = simplejson.loads(output)
             
+            local_context['pixmatch'].update({
+                'original' : data,
+                'results' : [],
+            })
+            
             for result in json.get('result', []):
                 f = result.get('filename')
                 f = f.lstrip('/gackers_')
                 url = reverse('media', kwargs={'path' : 'static/images/memes/%s' % f})
-                local_context['pixmatch'].append(url)
+                local_context['pixmatch']['results'].append(url)
                 
         except Exception, e:
             raise(e)
