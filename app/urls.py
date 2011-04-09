@@ -1,9 +1,15 @@
 from django.conf.urls.defaults import *
+<<<<<<< HEAD
 from django.views.generic.simple import direct_to_template
 
 # Uncomment the next two lines to enable the admin:
+=======
+from django.conf import settings
+>>>>>>> aed3f4bfca2be38939ff1b58c4c8a922e7123d17
 from django.contrib import admin
+
 admin.autodiscover()
+
 
 urlpatterns = patterns('',
     # Example:
@@ -11,5 +17,6 @@ urlpatterns = patterns('',
 
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
-    (r'^$', direct_to_template, {'template': 'chat/base.html'}),
+    (r'^chat/', include('chat.urls')),
+    url(r'^site-media/(?P<path>.*)$', 'django.views.static.serve', { 'document_root' : settings.MEDIA_ROOT }, name='media')
 )
