@@ -94,6 +94,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'clean',
+    'chat',
 )
 
 SOUTH_AUTO_FREEZE_APP = True
