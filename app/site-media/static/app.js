@@ -34,11 +34,14 @@ channel.on('chat', function(obj) {
             message(obj.buffer[i]);
         }
     } else {
-        console.log("Single message");
-        console.log(obj);
         message(obj);
     }
 
+});
+
+channel.on('announcement', function(obj) {
+    console.log("Announcement", obj);
+    $("#messages").append("<div>" + obj.announcement + "</div>");
 });
 
 channel.on('connect', function(obj) {

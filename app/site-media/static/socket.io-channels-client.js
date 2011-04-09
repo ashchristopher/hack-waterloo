@@ -95,7 +95,6 @@ SocketIOChannel.prototype._send = function(event, msg){
     msg['event'] = event;
     msg['channelId'] = this.channelId;
 
-    console.log(this.socket);
     this.socket.send(JSON.stringify(msg));
 };
 
