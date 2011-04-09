@@ -104,6 +104,7 @@ INSTALLED_APPS = (
     'api',
     'south',
     'twitter_auth',
+    'profiles',
 )
 
 SOUTH_AUTO_FREEZE_APP = True
