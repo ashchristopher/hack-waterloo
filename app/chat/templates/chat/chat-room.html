@@ -1,6 +1,9 @@
 {% extends 'chat/base.html' %}
 
 {% block content %}
-    <section id="messages"></section>
+    <form method='post' id='chatform'>
+        <section id="messages"></section>
+        <input type='text' id='chatinput' /><input type='submit' name='submit' value='Send' />
+    </form>
     <section id="contentsteam"></section>
 {% endblock %}
