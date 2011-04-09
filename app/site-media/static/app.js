@@ -33,6 +33,17 @@ function renderPostRank(data) {
     return ich.postrank(data.postrank);
 }
 
+function renderPixMatch(data) {
+    console.log('renderPixMatch', data);
+    var li = [];
+    for (var i in data.pixmatch.results) {
+        li[i] = ich.pixmatch_derive({label: data.pixmatch.results[i]});
+    }
+    var f = { list: li.join('')}  
+    console.log(li.join(''));
+    return ich.pixmatch();
+}
+
 function contextReceived(context) {
     // context can be a list of contexts or a single item
     console.log("contextReceived", context);
@@ -49,6 +60,10 @@ function contextReceived(context) {
     for (var i in to_render) {
         if(to_render[i]['postrank']) {
             pushToStream(renderPostRank(to_render[i]));
+        }
+        
+        if(to_render[i]['pixmatch']) {
+            pushToStream(renderPixMatch(to_render[i]));
         }
     }
 }
