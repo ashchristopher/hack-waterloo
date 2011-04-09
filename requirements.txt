@@ -7,3 +7,4 @@ South==0.7.3
 python-memcached==1.47
 sorl-thumbnail==11.01
 wsgiref==0.1.2
+django-clean
