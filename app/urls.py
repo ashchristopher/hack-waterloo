@@ -1,5 +1,11 @@
 from django.conf.urls.defaults import *
+<<<<<<< HEAD
+from django.views.generic.simple import direct_to_template
+
+# Uncomment the next two lines to enable the admin:
+=======
 from django.conf import settings
+>>>>>>> aed3f4bfca2be38939ff1b58c4c8a922e7123d17
 from django.contrib import admin
 
 admin.autodiscover()
