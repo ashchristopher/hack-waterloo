@@ -87,4 +87,6 @@ $(document).ready(function () {
         send();
         return false;
     });
+    
+    $('#stream a').embedly();
 });
