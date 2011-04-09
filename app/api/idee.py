@@ -1,3 +1,4 @@
+import re
 import urllib
 from urllib import urlencode
 import os
@@ -16,11 +17,15 @@ class PixMatch(Api):
         local_context = {
             'pixmatch' : {},
         }
-        if not (data.endswith('.jpg') or data.endswith('.png')):
-            #empty dict added
-            return {}
+        
 
         try:
+            data = re.search("(?P<url>https?://[^\s]+)", data).group("url")
+            if not (data.endswith('.jpg') or data.endswith('.png')):
+                #empty dict added
+                return {}
+            
+            
             filename = data.split(os.path.sep)[-1]
             output_path = os.path.join(settings.MEDIA_ROOT, 'dynamic', 'images')
 
