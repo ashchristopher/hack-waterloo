@@ -16,8 +16,7 @@ var channel = new SocketIOChannel({
 
 function message(obj) {
     console.log('message', obj);
-    // var image = "<img src='"+ userimage + "' width=25 height=25>";
-    var image ='';
+    var image = "<img src='"+ obj.userimage + "' width=25 height=25>";
     
     $("#messages").append("<div>" + image + obj.username + " - " + obj.message + "</div>");
     $("#chatinput").val("");
@@ -27,7 +26,7 @@ function message(obj) {
 function send() {
     console.log('send');
     var val = $("#chatinput").val();
-    obj = {message: val, username: username};
+    obj = {message: val, username: username, userimage: userimage};
     channel.send('chat', obj)
     message(obj);
 };
