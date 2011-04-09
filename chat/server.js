@@ -50,7 +50,6 @@ channel.on('connectedToChannel', function(client, sessionInfo){
 
   channel.broadcastToChannel('announcement',sessionInfo.channelId, {announcement: sessionInfo.session.username + " has entered the Room"})
 
-  
   _data = dictBuffer[sessionInfo.channelId];
 
   console.log(_data);
