@@ -14,7 +14,10 @@
 
 
 {% block content %}
+<section id='signin'>
+    <h2>Start chatting...</h2>
     <a href='{% url twitter_auth__login %}' id='twitter-signin'>
         <img src='{{ MEDIA_URL }}static/images/sign-in-with-twitter-l.png'>
     </a>
+</section>
 {% endblock content %}

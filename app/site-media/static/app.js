@@ -35,13 +35,17 @@ function renderPostRank(data) {
 
 function renderPixMatch(data) {
     console.log('renderPixMatch', data);
-    var li = [];
+
+    var ul = $("<ul>");
+
     for (var i in data.pixmatch.results) {
-        li[i] = ich.pixmatch_derive({label: data.pixmatch.results[i]});
+        ul.append(ich.pixmatch_derive({label: data.pixmatch.results[i]})[0]);
     }
-    var f = { list: li.join('')}  
-    console.log(li.join(''));
-    return ich.pixmatch();
+
+    // hack!!!
+    $("#stream").append(ul[0]);
+
+    return ich.pixmatch({list: ul[0]});
 }
 
 function contextReceived(context) {
