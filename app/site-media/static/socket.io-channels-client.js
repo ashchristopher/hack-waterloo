@@ -89,12 +89,13 @@ SocketIOChannel.prototype.on = function(event, closure){
 };
 
 SocketIOChannel.prototype._send = function(event, msg){
-    console.log("sending message: ", event, msg);
+    console.log("<socket.io-channels> sending message: ", event, msg);
     msg = msg || {};
 
     msg['event'] = event;
     msg['channelId'] = this.channelId;
 
+    console.log(this.socket);
     this.socket.send(JSON.stringify(msg));
 };
 
