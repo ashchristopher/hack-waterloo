@@ -1,0 +1,13 @@
+* {margin: 0; padding: 0;}
+
+section#messages {
+    background-color: pink;
+    float: left;
+    width: 70%;
+}
+
+section#stream {
+    background-color: lime;
+    margin-left: 70%;
+    width: 30%;
+}
