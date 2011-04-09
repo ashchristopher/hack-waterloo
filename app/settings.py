@@ -95,12 +95,15 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'clean',
     'chat',
+    'api',
     'south',
 )
 
 SOUTH_AUTO_FREEZE_APP = True
 
 CACHE_BACKEND = 'locmem://'
+
+CHAT_SERVER_URL = 'http://localhost:8001'
 
 # Place settings you want overridden for local development
 # in localsettings.py file in your projects root.

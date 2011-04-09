@@ -7,6 +7,7 @@ var http = require('http')
   , fs = require('fs')
   , io = require('socket.io')
   , channels = require('socket.io-channels')
+  , context_api = require('./context_api').ContextApi()
   , sys = require(process.binding('natives').util ? 'util' : 'sys')
   , port = 8001
   , server;
@@ -33,8 +34,20 @@ server.listen(port);
 var socket = io.listen(server)
     channel = channels.listen(socket, {})
 
+var buffer = [];
+var user_buffer = []; // list of users in the chat room.
+
+/* Buffer format:
+ *
+ * {channelId: <channelId>, message: [client.sessionId, message])
+ * */
+
 channel.on('connectedToChannel', function(client, sessionInfo){
   channel.broadcastToChannel('announcement',sessionInfo.channelId, {announcement: sessionInfo.session.username + " has entered the Room"})
+
+  // Send the buffer to the channel upon connecting. Will this send to everyone? Probably
+  console.log(buffer);
+  //channel.broadcastToChannel('chat', sessionInfo.channelId, {buffer: buffer},  client.sessionId);
 })
 
 channel.on('disconnectedFromChannel', function(sessionId, sessionInfo){
@@ -44,17 +57,21 @@ channel.on('disconnectedFromChannel', function(sessionId, sessionInfo){
 channel.on('chat',function(client, msg){
   // broadcast the chat message to everyone in the channel,
   // except the person who sent it:
+  console.log(msg);
   channel.broadcastToChannel('chat', msg.channelId, msg, client.sessionId)
+
+  // push the message to the buffer to preload messages on new users.
+  //var msg = {channelId: msg.channelId, message: msg, sessionId: client.sessionId};
+  buffer.push(msg);
+  console.log(buffer);
 
   // Broadcast context data to all clients about this message
   // TODO: get this context from django...somehow
-  var context = {
-    message: msg,
-    postrank: {},
-    video: {},
-    image: {},
-  }
-  channel.broadcastToChannel('context', msg.channelId, context)
+
+  context_api.getContext(msg, function contextReceived(err, context) {
+      console.log('contextReceived');
+      channel.broadcastToChannel('context', msg.channelId, context)
+  })
 })
 
 

@@ -1,9 +1,10 @@
 var username = "User_" + new Date().getTime();
 
 var channel = new SocketIOChannel({
-    host: "localhost",
-    port: 8001,
-    channelId: "foofoo",
+    host: "http://" + window.location.hostname,
+    port: SOCKET_PORT,
+    // get channelId from url, we assume an ending slash /
+    channelId: window.location.href.split("/").splice(-2)[0],
 
     session: {username: username},
 
@@ -13,39 +14,42 @@ var channel = new SocketIOChannel({
 
 
 function message(obj) {
-    $("#messages").append("<div>" + obj.message[0] + ", " + obj.message[1] + "</div>");
+    console.log('message', obj);
+    $("#messages").append("<div>From:" + obj.username + " - " + obj.message + "</div>");
     $("#chatinput").val("");
 
 };
 
 function send() {
+    console.log('send');
     var val = $("#chatinput").val();
-
     obj = {message: val, username: username};
     channel.send('chat', obj)
     message(obj);
 };
 
 channel.on('chat', function(obj) {
-    console.log("got a response");
-    message(obj);
+    if ('buffer' in obj ) {
+        for (var i in obj.buffer) {
+            message(obj.buffer[i]);
+        }
+    } else {
+        console.log("Single message");
+        console.log(obj);
+        message(obj);
+    }
+
 });
 
 channel.on('connect', function(obj) {
     console.log('Connected!');
-
 });
 
-/*
- *
- * The front end will need to be able to specify the channel based on some output from the django
- * app?
- * */
-
 $(document).ready(function () {
+    $("#chatinput").focus();
+
     $("#chatform").submit(function() {
         send();
         return false;
-        message({ message: ['you', val]});
     });
 });
