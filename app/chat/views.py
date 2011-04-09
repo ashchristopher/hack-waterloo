@@ -8,7 +8,8 @@ from chat.models import ChatRoom
 from chat.forms import ChatRoomForm
 
 # TODO: move to context processor
-CHAT_SERVER_URL = getattr(settings, 'CHAT_SERVER_URL', 'http://localhost:8001')
+CHAT_SERVER_URL = getattr(settings, 'CHAT_SERVER_URL', 'http://localhost')
+CHAT_SERVER_PORT = getattr(settings, 'CHAT_SERVER_PORT', '8001')
 
 def chat_rooms_list(request, template='chat/rooms.html'):
 	existing_rooms = ChatRoom.objects.all()
@@ -26,6 +27,7 @@ def chat_rooms_list(request, template='chat/rooms.html'):
 		'existing_rooms' : existing_rooms,
 		'new_room_form' : new_room_form,
         'CHAT_SERVER_URL':CHAT_SERVER_URL,
+        'CHAT_SERVER_PORT':CHAT_SERVER_PORT,
 	}
 	return render_to_response(template, context, context_instance=RequestContext(request))
 
@@ -33,5 +35,6 @@ def chat_rooms_list(request, template='chat/rooms.html'):
 def chat_room(request, room_name, template='chat/chat-room.html'):
     context = {
         'CHAT_SERVER_URL': CHAT_SERVER_URL,
+        'CHAT_SERVER_PORT': CHAT_SERVER_PORT,
     }
     return render_to_response(template, context, context_instance=RequestContext(request))

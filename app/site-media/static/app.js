@@ -1,7 +1,7 @@
 var username = "User_" + new Date().getTime();
 
 var channel = new SocketIOChannel({
-    host: SOCKET_SERVER,
+    host: "http://" + window.location.hostname,
     port: SOCKET_PORT,
     // get channelId from url, we assume an ending slash /
     channelId: window.location.href.split("/").splice(-2)[0],
