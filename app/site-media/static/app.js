@@ -2,7 +2,7 @@ var username = "User_" + new Date().getTime();
 
 var channel = new SocketIOChannel({
     host: "localhost",
-    port: 8000,
+    port: 8001,
     channelId: "foofoo",
 
     session: {username: username},
@@ -14,15 +14,20 @@ var channel = new SocketIOChannel({
 
 function message(obj) {
     $("#messages").append("<div>" + obj.message[0] + ", " + obj.message[1] + "</div>");
+    $("#chatinput").val("");
 
 };
 
 function send() {
-    var val = $("#textinput").val();
-    channel.send('chat', {message: val, username: username});
+    var val = $("#chatinput").val();
+
+    obj = {message: val, username: username};
+    channel.send('chat', obj)
+    message(obj);
 };
 
 channel.on('chat', function(obj) {
+    console.log("got a response");
     message(obj);
 });
 
@@ -40,7 +45,7 @@ channel.on('connect', function(obj) {
 $(document).ready(function () {
     $("#chatform").submit(function() {
         send();
-        message({ message: ['you', val]});
         return false;
+        message({ message: ['you', val]});
     });
 });

@@ -95,7 +95,6 @@ SocketIOChannel.prototype._send = function(event, msg){
     msg['event'] = event;
     msg['channelId'] = this.channelId;
 
-    console.log("for realz",msg);
     this.socket.send(JSON.stringify(msg));
 };
 
@@ -106,8 +105,6 @@ SocketIOChannel.prototype._emit = function(event, msg){
 }
 
 SocketIOChannel.prototype._receive = function(msg){
-    console.log("received message: ", msg);
-
     var parsed = JSON.parse(msg);
 
     if (!parsed || !parsed.event){
