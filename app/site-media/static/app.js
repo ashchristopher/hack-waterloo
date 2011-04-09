@@ -2,32 +2,38 @@ var username = "User_" + new Date().getTime();
 
 var channel = new SocketIOChannel({
     host: "localhost",
-    port: 8000,
+    port: 8001,
     channelId: "foofoo",
 
     session: {username: username},
 
     reconnectOnDisconnect: true,
-    reconnectRetryInterval: 1000 * 10 // try to reconnect every 30 seconds
+    reconnectRetryInterval: 1000 * 10
+});
 
-    function message(obj) {
-        $("#messages").append("<div>" + obj.message[0] + ", " + obj.message[1] + "</div>");
 
-    }
+function message(obj) {
+    $("#messages").append("<div>" + obj.message[0] + ", " + obj.message[1] + "</div>");
+    $("#chatinput").val("");
 
-    function send() {
-        var val = $("#textinput").val();
-        channel.send('chat', {message: val username: username});
-    };
+};
 
-    channel.on('chat', function(obj) {
-        message(obj);
-    });
+function send() {
+    var val = $("#chatinput").val();
 
-    channel.on('connect', function(obj) {
-        console.log('Connected!');
+    obj = {message: val, username: username};
+    channel.send('chat', obj)
+    message(obj);
+};
 
-    });
+channel.on('chat', function(obj) {
+    console.log("got a response");
+    message(obj);
+});
+
+channel.on('connect', function(obj) {
+    console.log('Connected!');
+
 });
 
 /*
@@ -39,8 +45,7 @@ var channel = new SocketIOChannel({
 $(document).ready(function () {
     $("#chatform").submit(function() {
         send();
-        message({ message: ['you', val]);
-
         return false;
+        message({ message: ['you', val]});
     });
 });

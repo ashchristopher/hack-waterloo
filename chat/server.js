@@ -8,11 +8,23 @@ var http = require('http')
   , io = require('socket.io')
   , channels = require('socket.io-channels')
   , sys = require(process.binding('natives').util ? 'util' : 'sys')
-  , port = 8000
+  , port = 8001
   , server;
 
 server = http.createServer(function(req, res){
     // doing nothing for now. socket.io will respond    
+    res.writeHead(200, {'Content-Type': 'text/html'}); 
+
+    var data = '';
+    req.on('data', function(chunk) {
+        data += chunk.toString();
+    });
+
+     req.on('end', function() {
+         console.log(data);
+         res.write(data);
+         socket.broadcast(data);
+     });
 }),
 server.listen(port);
 

@@ -27,5 +27,5 @@ def chat_rooms_list(request, template='chat/rooms.html'):
 
 
 def chat_room(request, room_name, template='chat/chat-room.html'):
-	context = {}
-	return render_to_response(template, context, context_instance=RequestContext(request))
+    context = {}
+    return render_to_response(template, context, context_instance=RequestContext(request))
