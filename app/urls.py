@@ -14,3 +14,8 @@ urlpatterns = patterns('',
     (r'^chat/', include('chat.urls')),
     url(r'^site-media/(?P<path>.*)$', 'django.views.static.serve', { 'document_root' : settings.MEDIA_ROOT }, name='media')
 )
+
+
+urlpatterns += patterns('',
+    url(r'^$', 'chat.views.chat_rooms_list', {}, name='list-rooms'),
+)
