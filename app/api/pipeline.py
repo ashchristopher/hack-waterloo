@@ -4,6 +4,7 @@ class Pipeline(object):
     
     apis = [
         idee.PixMatch,
+        idee.Piximilar,
         postrank.PostrankApi,
     ]
     
