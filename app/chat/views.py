@@ -11,23 +11,23 @@ from chat.forms import ChatRoomForm
 CHAT_SERVER_URL = getattr(settings, 'CHAT_SERVER_URL', 'http://localhost:8001')
 
 def chat_rooms_list(request, template='chat/rooms.html'):
-	existing_rooms = ChatRoom.objects.all()
+    existing_rooms = ChatRoom.objects.all()
 
-	if request.method == "POST":
-		new_room_form = ChatRoomForm(data=request.POST)
-		if new_room_form.is_valid():
-			room = new_room_form.save()
-			return HttpResponseRedirect(reverse('chat_room', kwargs={'room_name' : room.slug }))
-	new_room_form = ChatRoomForm()
-	
+    if request.method == "POST":
+        new_room_form = ChatRoomForm(data=request.POST)
+        if new_room_form.is_valid():
+            room = new_room_form.save()
+            return HttpResponseRedirect(reverse('chat_room', kwargs={'room_name' : room.slug }))
+    new_room_form = ChatRoomForm()
+    
 
 
-	context = {
-		'existing_rooms' : existing_rooms,
-		'new_room_form' : new_room_form,
+    context = {
+        'existing_rooms' : existing_rooms,
+        'new_room_form' : new_room_form,
         'CHAT_SERVER_URL':CHAT_SERVER_URL,
-	}
-	return render_to_response(template, context, context_instance=RequestContext(request))
+    }
+    return render_to_response(template, context, context_instance=RequestContext(request))
 
 
 def chat_room(request, room_name, template='chat/chat-room.html'):
