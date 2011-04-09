@@ -13,39 +13,44 @@ var channel = new SocketIOChannel({
 
 
 function message(obj) {
-    $("#messages").append("<div>" + obj.message[0] + ", " + obj.message[1] + "</div>");
+    $("#messages").append("<div>From:" + obj.username + " - " + obj.message + "</div>");
     $("#chatinput").val("");
 
 };
 
 function send() {
     var val = $("#chatinput").val();
-
     obj = {message: val, username: username};
     channel.send('chat', obj)
     message(obj);
 };
 
+channel.on('message', function(obj) {
+    console.log('got a msg new', obj);
+});
+
 channel.on('chat', function(obj) {
-    console.log("got a response");
-    message(obj);
+    if ('buffer' in obj ) {
+        for (var i in obj.buffer) {
+            message(obj.buffer[i]);
+        }
+    } else {
+        console.log("Single message");
+        console.log(obj);
+        message(obj);
+    }
+
 });
 
 channel.on('connect', function(obj) {
     console.log('Connected!');
-
 });
 
-/*
- *
- * The front end will need to be able to specify the channel based on some output from the django
- * app?
- * */
-
 $(document).ready(function () {
+    $("#chatinput").focus();
+
     $("#chatform").submit(function() {
         send();
         return false;
-        message({ message: ['you', val]});
     });
 });
