@@ -45,7 +45,8 @@ channel.on('connectedToChannel', function(client, sessionInfo){
   channel.broadcastToChannel('announcement',sessionInfo.channelId, {announcement: sessionInfo.session.username + " has entered the Room"})
 
   // Send the buffer to the channel upon connecting. Will this send to everyone? Probably
-  //channel.broadcastToChannel('chat', sessionInfo.channelId, {buffer: buffer},  client.sessionId);
+  console.log(buffer);
+  channel.broadcastToChannel('chat', sessionInfo.channelId, {buffer: buffer},  client.sessionId);
 })
 
 channel.on('disconnectedFromChannel', function(sessionId, sessionInfo){
@@ -58,7 +59,7 @@ channel.on('chat',function(client, msg){
   channel.broadcastToChannel('chat', msg.channelId, msg, client.sessionId)
 
   // push the message to the buffer to preload messages on new users.
-  var msg = {channelId: msg.channelId, message: msg, sessionId: client.sessionId};
+  //var msg = {channelId: msg.channelId, message: msg, sessionId: client.sessionId};
   buffer.push(msg);
 
   // Broadcast context data to all clients about this message

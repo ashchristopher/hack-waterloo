@@ -1,8 +1,8 @@
 var username = "User_" + new Date().getTime();
 
 var channel = new SocketIOChannel({
-    host: "localhost",
-    port: 8001,
+    host: SOCKET_SERVER,
+    port: SOCKET_PORT,
     // get channelId from url, we assume an ending slash /
     channelId: window.location.href.split("/").splice(-2)[0],
 
@@ -25,10 +25,6 @@ function send() {
     channel.send('chat', obj)
     message(obj);
 };
-
-channel.on('message', function(obj) {
-    console.log('got a msg new', obj);
-});
 
 channel.on('chat', function(obj) {
     if ('buffer' in obj ) {

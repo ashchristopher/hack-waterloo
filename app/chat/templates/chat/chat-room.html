@@ -1,6 +1,10 @@
 {% extends 'chat/base.html' %}
 
 {% block content %}
+    <script type='text/javascript'>
+    var SOCKET_SERVER = "";
+    var SOCKET_PORT = "";
+    </script>
     <script src="{{ MEDIA_URL }}static/app.js"></script>
     <section id='messages'>
         <article>I am a message!</article>
