@@ -97,6 +97,7 @@ INSTALLED_APPS = (
     'chat',
     'api',
     'south',
+    'twitter_auth',
 )
 
 SOUTH_AUTO_FREEZE_APP = True
@@ -105,6 +106,16 @@ CACHE_BACKEND = 'locmem://'
 
 CHAT_SERVER_URL = 'http://localhost'
 CHAT_SERVER_PORT = 8001
+
+# Twitter oauth settings
+TWITTER_CONSUMER_KEY=''
+TWITTER_CONSUMER_SECRET=''
+
+LOGIN_URL = '/login'
+LOGOUT_URL = "/"
+
+# profile settings
+AUTH_PROFILE_MODULE = 'profiles.Profile'
 
 # Place settings you want overridden for local development
 # in localsettings.py file in your projects root.

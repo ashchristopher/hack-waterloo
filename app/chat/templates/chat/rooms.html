@@ -14,11 +14,11 @@
 
 
 {% block content %}
-
     <div id='rooms'>
         <div id='create-new'>
             <form action='' method='post'>
                 {% csrf_token %}
+                {{ name_form.as_p }}
                 {{ new_room_form.as_p }}
                 <input type='submit' value='Create' />
             </form>

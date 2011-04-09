@@ -16,12 +16,12 @@ def chat_rooms_list(request, template='chat/rooms.html'):
 
     if request.method == "POST":
         new_room_form = ChatRoomForm(data=request.POST)
+        name_form = NameForm()
         if new_room_form.is_valid():
             room = new_room_form.save()
             return HttpResponseRedirect(reverse('chat_room', kwargs={'room_name' : room.slug }))
-    new_room_form = ChatRoomForm()
     
-
+    new_room_form = ChatRoomForm()
 
     context = {
         'existing_rooms' : existing_rooms,
