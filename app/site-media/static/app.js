@@ -1,4 +1,5 @@
-var username = "User_" + new Date().getTime();
+var username = TWITTER_USERNAME;
+var userimage = TWITTER_IMAGE;
 
 var channel = new SocketIOChannel({
     host: window.location.hostname,
@@ -6,7 +7,7 @@ var channel = new SocketIOChannel({
     // get channelId from url, we assume an ending slash /
     channelId: window.location.href.split("/").splice(-2)[0],
 
-    session: {username: username},
+    session: {username: username, userimage: userimage},
 
     reconnectOnDisconnect: true,
     reconnectRetryInterval: 1000 * 10
@@ -15,7 +16,9 @@ var channel = new SocketIOChannel({
 
 function message(obj) {
     console.log('message', obj);
-    $("#messages").append("<div>From:" + obj.username + " - " + obj.message + "</div>");
+    var image = "<img src='"+ obj.userimage + "' width=25 height=25>";
+    
+    $("#messages").append("<div>" + image + obj.username + " - " + obj.message + "</div>");
     $("#chatinput").val("");
 
 };
@@ -23,7 +26,7 @@ function message(obj) {
 function send() {
     console.log('send');
     var val = $("#chatinput").val();
-    obj = {message: val, username: username};
+    obj = {message: val, username: username, userimage: userimage};
     channel.send('chat', obj)
     message(obj);
 };
