@@ -1,3 +1,5 @@
 app/database.db
 *.pyc
 .swp
+*.pyc
+.gitignore
