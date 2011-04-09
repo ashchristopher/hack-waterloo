@@ -30,7 +30,7 @@ function send() {
 
 function renderPostRank(data) {
     console.log('renderPostRank', data);
-    return ich.postrank(data.postrank);
+    return $(ich.postrank(data.postrank).embedly());
 }
 
 function renderPixMatch(data) {
