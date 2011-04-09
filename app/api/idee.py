@@ -9,10 +9,10 @@ from django.core.urlresolvers import reverse
 from api import Api
 
 class PixMatch(Api):
-	
-    api_url = "http://pixmatch-r.hackdays.tineye.com/rest/"
-	
-    def process(self, data):
+    
+    @staticmethod
+    def process(data):
+        api_url = "http://pixmatch-r.hackdays.tineye.com/rest/"
         local_context = {
             'pixmatch' : [],
         }
@@ -30,7 +30,7 @@ class PixMatch(Api):
             file_path = "%s/%s" %(output_path, filename)
 
             # curl the file to idee
-            cmd = 'curl %s -F method=search -F image=@%s;filename=query.jpg' % (self.api_url, file_path)
+            cmd = 'curl %s -F method=search -F image=@%s;filename=query.jpg' % (api_url, file_path)
             output = subprocess.Popen(cmd.split(' '), stdout=subprocess.PIPE).communicate()[0]
             json = simplejson.loads(output)
             
