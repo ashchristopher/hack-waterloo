@@ -35,43 +35,59 @@ var socket = io.listen(server)
     channel = channels.listen(socket, {})
 
 var buffer = [];
-var user_buffer = []; // list of users in the chat room.
-
-/* Buffer format:
- *
- * {channelId: <channelId>, message: [client.sessionId, message])
- * */
+var dictBuffer = {}; // organized by chat room.
+var userBuffer = []; // list of users in all chat rooms.
 
 channel.on('connectedToChannel', function(client, sessionInfo){
+  userBuffer.push(client.sessionId);
+  var _localUserBuffer = JSON.parse(JSON.stringify(userBuffer));
   channel.broadcastToChannel('announcement',sessionInfo.channelId, {announcement: sessionInfo.session.username + " has entered the Room"})
 
   // Send the buffer to the channel upon connecting. Will this send to everyone? Probably
-  console.log(buffer);
-  //channel.broadcastToChannel('chat', sessionInfo.channelId, {buffer: buffer},  client.sessionId);
+  _data = dictBuffer[sessionInfo.channelId];
+
+  console.log(_data);
+  console.log(userBuffer);
+  console.log("This client just joined", client.sessionId);
+
+  // Send this buffer only to the new client.
+  currentUserIndex = _localUserBuffer.indexOf(client.sessionId);
+  _localUserBuffer.splice(currentUserIndex, 1);
+  console.log("Exclude", _localUserBuffer);
+
+  channel.broadcastToChannel('chat', sessionInfo.channelId, {buffer: _data}, _localUserBuffer);
 })
 
 channel.on('disconnectedFromChannel', function(sessionId, sessionInfo){
   channel.broadcastToChannel('announcement',sessionInfo.channelId, {announcement: sessionInfo.session.username + " has left the Room"})
+
+  console.log("Is leaving", sessionId);
+  userBuffer.splice(userBuffer.indexOf(sessionId), 1)
 })
 
 channel.on('chat',function(client, msg){
   // broadcast the chat message to everyone in the channel,
   // except the person who sent it:
-  console.log(msg);
+  console.log("Message is", msg);
   channel.broadcastToChannel('chat', msg.channelId, msg, client.sessionId)
 
   // push the message to the buffer to preload messages on new users.
-  //var msg = {channelId: msg.channelId, message: msg, sessionId: client.sessionId};
-  buffer.push(msg);
-  console.log(buffer);
+  if (!dictBuffer[msg.channelId]) {
+      dictBuffer[msg.channelId] = [];
+  }
+  dictBuffer[msg.channelId].push(msg);
+
+  console.log(dictBuffer);
 
   // Broadcast context data to all clients about this message
   // TODO: get this context from django...somehow
 
+    /*
   context_api.getContext(msg, function contextReceived(err, context) {
       console.log('contextReceived');
       channel.broadcastToChannel('context', msg.channelId, context)
   })
+  */
 })
 
 
