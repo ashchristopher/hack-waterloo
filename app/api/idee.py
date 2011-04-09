@@ -1,8 +1,10 @@
 import urllib
 from urllib import urlencode
 import os
-
+import subprocess
 from django.conf import settings
+from django.utils import simplejson
+from django.core.urlresolvers import reverse
 
 from api import Api
 
@@ -11,18 +13,33 @@ class PixMatch(Api):
     api_url = "http://pixmatch-r.hackdays.tineye.com/rest/"
 	
     def process(self, data):
-        local_context = {}
+        local_context = {
+            'pixmatch' : [],
+        }
         if not (data.endswith('.jpg') or data.endswith('.png')):
             #empty dict added
             return {}
 
         try:
+            filename = data.split(os.path.sep)[-1]
             output_path = os.path.join(settings.MEDIA_ROOT, 'dynamic', 'images')
-            print output_path
-            os.system("wget %s -N --directory-prefix=%s" % (data, output_path))
-            # wget http://www.google.ca/images/nav_logo40.png --directory-prefix=foo/
-            # 
-            # openurl = urllib.urlopen('%sid=%s' % (METRIC_URL, url))
+
+            # store the data locally
+            cmd = "wget %s -N --directory-prefix=%s" % (data, output_path)
+            os.system(cmd)
+            file_path = "%s/%s" %(output_path, filename)
+
+            # curl the file to idee
+            cmd = 'curl %s -F method=search -F image=@%s;filename=query.jpg' % (self.api_url, file_path)
+            output = subprocess.Popen(cmd.split(' '), stdout=subprocess.PIPE).communicate()[0]
+            json = simplejson.loads(output)
+            
+            for result in json.get('result', []):
+                f = result.get('filename')
+                f = f.lstrip('/gackers_')
+                url = reverse('media', kwargs={'path' : 'static/images/memes/%s' % f})
+                local_context['pixmatch'].append(url)
+                
         except Exception, e:
             raise(e)
         return local_context
