@@ -16,9 +16,9 @@ var channel = new SocketIOChannel({
 
 function message(obj) {
     console.log('message', obj);
-    var image = "<img src='"+ obj.userimage + "' width=25 height=25>";
+    var image = "<img class='twitter-icon' src='"+ obj.userimage + "' width=25 height=25>";
     
-    $("#messages").append("<div>" + image + obj.username + " - " + obj.message + "</div>");
+    $("#messages").append("<div class='chat-message'>" + image + "<span>" + obj.username + "</span>" + " - " + obj.message + "</div>");
     $("#chatinput").val("");
 
 };
@@ -93,8 +93,16 @@ channel.on('chat', function(obj) {
     } else {
         message(obj);
     }
-
+    scrollMessages();
 });
+
+function scrollMessages() {
+ 
+    $('#messages').animate({
+        scrollTop: $('#messages div:last').offset().top
+    }, 2000);
+    
+}
 
 channel.on('announcement', announcementReceived);
 channel.on('context', contextReceived);      
