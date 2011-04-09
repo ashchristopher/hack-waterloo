@@ -4,6 +4,6 @@ from chat.models import ChatRoom
 
 
 class ChatRoomAdmin(admin.ModelAdmin):
-	pass
+	prepopulated_fields = {'slug': ('name',)}
 
 admin.site.register(ChatRoom, ChatRoomAdmin)
