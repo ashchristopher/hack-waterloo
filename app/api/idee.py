@@ -9,6 +9,22 @@ from django.core.urlresolvers import reverse
 
 from api import Api
 
+class Helper(object):
+    @staticmethod
+    def parse_url(data, images_only=False):
+        data = re.search("(?P<url>https?://[^\s]+)", data)
+        if not data:
+            return {}
+
+        data = data.group("url")
+
+        if images_only:
+            if not (data.endswith('.jpg') or data.endswith('.png')):
+                #empty dict added
+                return {}
+
+        return data
+
 class Piximilar(Api):
     @staticmethod
     def process(data):
@@ -16,13 +32,12 @@ class Piximilar(Api):
         local_context = {
             'piximilar': {},
         }
-
         try:
-            data = re.search("(?P<url>https?://[^\s]+)", data).group("url")
-            if not (data.endswith('.jpg') or data.endswith('.png')):
-                #empty dict added
+            data = Helper.parse_url(data, images_only=True)
+            print data
+            if not data:
                 return {}
-            
+
             filename = data.split(os.path.sep)[-1]
             output_path = os.path.join(settings.MEDIA_ROOT, 'dynamic', 'images')
 
@@ -61,9 +76,8 @@ class PixMatch(Api):
         }
         
         try:
-            data = re.search("(?P<url>https?://[^\s]+)", data).group("url")
-            if not (data.endswith('.jpg') or data.endswith('.png')):
-                #empty dict added
+            data = Helper.parse_url(data, images_only=True)
+            if not data:
                 return {}
             
             filename = data.split(os.path.sep)[-1]

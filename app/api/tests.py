@@ -6,10 +6,25 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
+from django.test.client import Client
 from django.utils import simplejson
 
 from api.idee import PixMatch, Piximilar
 from api.pipeline import Pipeline
+
+class PipelineTest(TestCase):
+    def test_basic(self):
+        c = Client()
+        
+        messages = [
+            'Hello Ash, how are you?',
+            'Check out this sweet story!  http://www.theglobeandmail.com/sports/hockey/the-canucks-recipe-for-success/article1978113/',
+            'Check out this image! http://www.globalreef.org/img/Big_wave.jpg',
+        ]
+
+        for msg in messages:
+            print msg
+            c.post('/api/context/', {'message': msg})
 
 class PiximilarTest(TestCase):
     def test_basic(self):
